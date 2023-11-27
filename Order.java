@@ -121,4 +121,18 @@ class Order
         else
             throw new Exception("Status is not set!");
     }
+
+    public void setStatus(String status) throws Exception
+    {
+        if (status == "PLACED")
+            this.status = Status.PLACED;
+        else if (status == "READY")
+            this.status = Status.READY;
+        else if (status == "BEING_DELIVERED")
+            this.status = Status.BEING_DELIVERED;
+        else if (status == "DELIVERED")
+            this.status = Status.DELIVERED;
+        else
+            throw new Exception("Invalid status to set");
+    }
 }

@@ -24,4 +24,29 @@ class Restaurant extends User
     {
         // TO BE IMPLEMENTED
     }
+    
+    public void executeCommand(String command)
+    {
+
+    }
+
+    public void receiveOrder(Order o)
+    {
+        activeOrders.add(o);
+    }
+    public void setOrderReady(Order o) throws Exception
+    {
+        if (activeOrders.contains(o))
+        {
+            try {
+                o.setStatus("READY");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            throw new Exception("This restaurant does not have this order.");
+        }
+    }
 }

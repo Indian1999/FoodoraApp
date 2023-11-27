@@ -29,9 +29,17 @@ class Customer extends User
     public void sendOrder(Order o)
     {
         pastOrders.add(o);
-        // TO BE IMPLEMENTED
+        try
+        {
+            o.setStatus("PLACED");
+            o.getRestaurant().receiveOrder(o);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
-    
+
     public void listCommands()
     {
         // TO BE IMPLEMENTED

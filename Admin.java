@@ -34,4 +34,9 @@ class Admin extends User
     {
         // TO BE IMPLEMENTED
     }
+    
+    public void executeCommand(String command)
+    {
+
+    }
 }
