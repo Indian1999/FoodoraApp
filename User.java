@@ -1,3 +1,5 @@
+import java.io.*;
+
 class User
 {
     private String username;
@@ -6,9 +8,21 @@ class User
 
     User(String username, String pw, String email)
     {
+        PrintWriter userWriter = null;
+        try {
+
+            userWriter = new PrintWriter(new FileOutputStream(new File("Felhasználók.txt"), true));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         this.username = username;
         this.password = pw;
         this.email = email;
+        userWriter.println(username);
+        userWriter.println(pw);
+        userWriter.println(email);
+        userWriter.close();
+
     }
 
     public String getUsername()
@@ -43,6 +57,5 @@ class User
 
     public void listCommands()
     {
-        // TO BE IMPLEMENTED
     }
 }

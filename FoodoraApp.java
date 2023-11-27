@@ -2,12 +2,23 @@ class FoodoraApp
 {
     public static void main(String[] args)
     {
-        System.out.println("Welcome to our food ordering app!");
-        User user = new Visitor();
+        System.out.println("Köszöntjük az ételrendelő applikációban!");
+        Visitor visitor = new Visitor();
         while (true)
         {
-            user.listCommands();
+            visitor.listCommands();
             String input = System.console().readLine();
+            switch (input) {
+                case "1":
+                    visitor.register();
+                    break;
+            
+                case "2":
+                    visitor.login();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

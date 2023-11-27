@@ -7,16 +7,26 @@ class Visitor extends User
 
     public void login()
     {
-        // TO BE IMPLEMENTED
+        System.out.println("Bejelentkezés:");
+        System.out.println("Adja meg a nevét:");
+        String name = System.console().readLine();
+
     }
 
     public void register()
     {
-        // TO BE IMPLEMENTED
+        System.out.println("Adja meg a nevét:");
+        String name = System.console().readLine();
+        System.out.println("Adja meg a jelszavát:");
+        String pw = System.console().readLine();
+        System.out.println("Adja meg az email címét:");
+        String email = System.console().readLine();
+        new User(name, pw, email);
     }
 
     public void listCommands()
     {
-        // TO BE IMPLEMENTED
+        System.out.println("1. Regisztráció");
+        System.out.println("2. Bejelentkezés");
     }
 }
