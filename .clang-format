@@ -3,6 +3,7 @@ Language:        Java
 # BasedOnStyle:  LLVM
 AccessModifierOffset: -2
 AlignAfterOpenBracket: Align
+#SeparateDefinitionStyle: Always
 AlignArrayOfStructures: None
 AlignConsecutiveAssignments:
   Enabled:         false

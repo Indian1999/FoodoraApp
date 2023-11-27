@@ -14,18 +14,21 @@ class Courier extends User
     {
         activeDelivery = o;
     }
+
     public void completeDelivery()
     {
-        //set activeDelivery to completed
+        // set activeDelivery to completed
         pastDeliveries.add(activeDelivery);
         activeDelivery = null;
     }
-    public void listCommands() 
+
+    public void listCommands()
     {
-        //TO BE IMPLEMENTED
+        // TO BE IMPLEMENTED
     }
+    
     public void listReadyOrders()
     {
-        //TO BE IMPLEMENTED
+        // TO BE IMPLEMENTED
     }
 }

@@ -3,19 +3,18 @@ import java.util.List;
 
 class Order
 {
-    private Customer customer;
-    private Restaurant restaurant;
-    private Courier courier;
-    private List<Item> items;
-
-    private enum status
+    private enum Status
     {
         PLACED,
         READY,
         BEING_DELIVERED,
         DELIVERED
     }
-
+    private Customer customer;
+    private Restaurant restaurant;
+    private Courier courier;
+    private List<Item> items;
+    private Status status;
     private LocalDateTime orderPlace;
     private LocalDateTime orderReady;
     private LocalDateTime orderDeliveryPickup;
@@ -26,6 +25,7 @@ class Order
         this.customer = c;
         this.restaurant = r;
         this.items = items;
+        this.status = Status.PLACED;
     }
 
     public Customer getCustomer()
@@ -106,5 +106,19 @@ class Order
     public void setOrderDelivered(LocalDateTime orderDelivered)
     {
         this.orderDelivered = orderDelivered;
+    }
+
+    public String getStatus() throws Exception
+    {
+        if (status == Status.PLACED)
+            return "PLACED";
+        else if (status == Status.READY)
+            return "READY";
+        else if (status == Status.BEING_DELIVERED)
+            return "BEING_DELIVERED";
+        else if (status == Status.DELIVERED)
+            return "DELLIVERED";
+        else
+            throw new Exception("Status is not set!");
     }
 }
