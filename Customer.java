@@ -1,10 +1,11 @@
+import java.util.ArrayList;
 import java.util.List;
 
 class Customer extends User
 {
     private String address;
-    private List<Order> pastOrders;
-    private List<Restaurant> favouriteRestaurants;
+    private List<Order> pastOrders = new ArrayList<Order>();
+    private List<Restaurant> favouriteRestaurants = new ArrayList<Restaurant>();
 
     Customer(String username, String pw, String email)
     {
@@ -42,6 +43,14 @@ class Customer extends User
 
     public void listCommands()
     {
-        // TO BE IMPLEMENTED
+        System.out.println("0. Exit application");
+        System.out.println("1. Change address");
+        System.out.println("2. Change name");
+        System.out.println("3. Change e-mail");
+        System.out.println("4. Change password");
+        System.out.println("5. List restaurants");
+        System.out.println("6. List restaurant menu");
+        System.out.println("7. Choose restaurant");
+        System.out.println("8. Logout");
     }
 }

@@ -1,10 +1,12 @@
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 class Order
 {
     private enum Status
     {
+        BEING_ORDERED,
         PLACED,
         READY,
         BEING_DELIVERED,
@@ -13,19 +15,18 @@ class Order
     private Customer customer;
     private Restaurant restaurant;
     private Courier courier;
-    private List<Item> items;
+    private List<Item> items = new ArrayList<Item>();
     private Status status;
     private LocalDateTime orderPlace;
     private LocalDateTime orderReady;
     private LocalDateTime orderDeliveryPickup;
     private LocalDateTime orderDelivered;
 
-    Order(Customer c, Restaurant r, List<Item> items)
+    Order(Customer c, Restaurant r)
     {
         this.customer = c;
         this.restaurant = r;
-        this.items = items;
-        this.status = Status.PLACED;
+        this.status = Status.BEING_ORDERED;
     }
 
     public Customer getCustomer()
@@ -61,6 +62,16 @@ class Order
     public List<Item> getItems()
     {
         return items;
+    }
+    
+    public void addItem(Item item)
+    {
+        items.add(item);
+    }
+
+    public void removeItem(int i)
+    {
+        items.remove(i);
     }
 
     public void setItems(List<Item> items)
@@ -110,7 +121,9 @@ class Order
 
     public String getStatus() throws Exception
     {
-        if (status == Status.PLACED)
+        if (status == Status.BEING_ORDERED)
+            return "BEING_ORDERED";
+        else if (status == Status.PLACED)
             return "PLACED";
         else if (status == Status.READY)
             return "READY";
@@ -124,7 +137,9 @@ class Order
 
     public void setStatus(String status) throws Exception
     {
-        if (status == "PLACED")
+        if (status == "BEING_ORDERED")
+            this.status = Status.BEING_ORDERED;
+        else if (status == "PLACED")
             this.status = Status.PLACED;
         else if (status == "READY")
             this.status = Status.READY;
@@ -135,4 +150,6 @@ class Order
         else
             throw new Exception("Invalid status to set");
     }
+
+    public void listItems() {}
 }
