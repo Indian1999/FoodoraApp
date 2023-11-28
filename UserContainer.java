@@ -60,6 +60,26 @@ class UserContainer
         customers.add(c);
     }
 
+    public Restaurant getRestaurantByIndex(int i)
+    {
+        return restaurants.get(i);
+    }
+
+    public Admin getAdminByIndex(int i)
+    {
+        return admins.get(i);
+    }
+
+    public Courier getCourierByIndex(int i)
+    {
+        return couriers.get(i);
+    }
+
+    public Customer getCustomerByIndex(int i)
+    {
+        return customers.get(i);
+    }
+
     public User loginUser(String email, String pw) throws Exception
     {
         for (Admin account : admins)
@@ -110,7 +130,14 @@ class UserContainer
         {
             System.out.println(index + ". - " + item.getName() + ", " + item.getPrice() +
                                ", category: " + item.getCategory());
+            index++;
         }
+    }
+
+
+    public void addItemToRestaurantMenu(Restaurant r)
+    {
+        // restaurants.
     }
 
     public void exportToFile(String path)
@@ -129,29 +156,38 @@ class UserContainer
             writer.println("couriers");
             for (Courier courier : couriers)
             {
-                writer.write(courier.getUsername() + ";" + courier.getPassword() + ";" +
-                             courier.getEmail() + courier.getPastDeliveries().size() + "\n");
-                for (Order order : courier.getPastDeliveries())
+                writer.println(courier.getUsername() + ";" + courier.getPassword() + ";" +
+                               courier.getEmail());
+                if (courier.getPastDeliveries() == null)
                 {
-                    try
+                    writer.println(0);
+                }
+                else
+                {
+                    writer.println(courier.getPastDeliveries().size());
+                    for (Order order : courier.getPastDeliveries())
                     {
-                        writer.write(order.getCustomer().getEmail() + ";" + order.getRestaurant() +
-                                     ";" + order.getCourier() + ";" + order.getStatus());
-                        for (Item item : order.getItems())
+                        try
                         {
-                            writer.write(";" + item.getName() + ";" + item.getPrice() + ";" +
-                                         item.getCategory());
+                            writer.write(order.getCustomer().getEmail() + ";" +
+                                         order.getRestaurant() + ";" + order.getCourier() + ";" +
+                                         order.getStatus());
+                            for (Item item : order.getItems())
+                            {
+                                writer.write(";" + item.getName() + ";" + item.getPrice() + ";" +
+                                             item.getCategory());
+                            }
+                            writer.write("\n");
                         }
-                        writer.write("\n");
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 if (courier.getActiveDelivery() == null)
                 {
-                    writer.write(0);
+                    writer.println(0);
                 }
                 else
                 {
@@ -178,29 +214,67 @@ class UserContainer
             for (Restaurant restaurant : restaurants)
             {
                 writer.write(restaurant.getUsername() + ";" + restaurant.getPassword() + ";" +
-                             restaurant.getEmail() + restaurant.getMenu().size() + "\n");
-                for (Item item : restaurant.getMenu())
+                             restaurant.getEmail() + "\n");
+                if (restaurant.getMenu() == null)
                 {
-                    writer.write(item.getName() + ";" + item.getPrice() + ";" + item.getCategory() +
-                                 "\n");
+                    writer.println(0);
                 }
-                writer.write(restaurant.getActiveOrders().size());
-                for (Order order : restaurant.getActiveOrders())
+                else
                 {
-                    try
+                    writer.println(restaurant.getMenu().size());
+                    for (Item item : restaurant.getMenu())
                     {
-                        writer.write(order.getCustomer().getEmail() + ";" + order.getRestaurant() +
-                                     ";" + order.getCourier() + ";" + order.getStatus());
-                        for (Item item : order.getItems())
-                        {
-                            writer.write(";" + item.getName() + ";" + item.getPrice() + ";" +
-                                         item.getCategory());
-                        }
-                        writer.write("\n");
+                        writer.write(item.getName() + ";" + item.getPrice() + ";" +
+                                     item.getCategory() + "\n");
                     }
-                    catch (Exception e)
+                }
+                if (restaurant.getActiveOrders() == null)
+                {
+                    writer.println(0);
+                }
+                else
+                {
+                    writer.println(restaurant.getActiveOrders().size());
+                    for (Order order : restaurant.getActiveOrders())
                     {
-                        e.printStackTrace();
+                        try
+                        {
+                            if (order.getCustomer() == null)
+                            {
+                                writer.write("null;");
+                            }
+                            else
+                            {
+                                writer.write(order.getCustomer().getEmail() + ";");
+                            }
+                            if (order.getRestaurant() == null)
+                            {
+                                writer.write("null;");
+                            }
+                            else
+                            {
+                                writer.write(order.getRestaurant().getUsername() + ";");
+                            }
+                            if (order.getCourier() == null)
+                            {
+                                writer.write("null;");
+                            }
+                            else
+                            {
+                                writer.write(order.getCourier().getUsername() + ";");
+                            }
+                            writer.write(order.getStatus());
+                            for (Item item : order.getItems())
+                            {
+                                writer.write(";" + item.getName() + ";" + item.getPrice() + ";" +
+                                             item.getCategory());
+                            }
+                            writer.write("\n");
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

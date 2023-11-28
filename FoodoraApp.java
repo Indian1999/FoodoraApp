@@ -1,5 +1,3 @@
-import java.nio.charset.StandardCharsets;
-
 class FoodoraApp
 {
     private UserContainer users = new UserContainer();
@@ -66,7 +64,7 @@ class FoodoraApp
                 try
                 {
                     System.out.println(
-                        "Which restaurants's menu would you like to list. (Give the number of the restaurant)");
+                        "Which restaurants's menu would you like to list? (Give the number of the restaurant)");
                     int index = Integer.parseInt(System.console().readLine());
                     users.listRestaurantMenu(index);
                 }
@@ -83,9 +81,9 @@ class FoodoraApp
                 try
                 {
                     System.out.println(
-                        "Which restaurant's menu would you like to list. (Give the number of the restaurant)");
+                        "Which restaurant menu would you like to order from? (Give the number of the restaurant)");
                     int index = Integer.parseInt(System.console().readLine());
-                    Restaurant restaurant = users.getRestaurants().get(index - 1);
+                    Restaurant restaurant = users.getRestaurantByIndex(index - 1);
                     System.out.println("You selected: " + restaurant.getUsername());
                     System.out.println("The menu of " + restaurant.getUsername() + ":");
                     restaurant.listRestaurantMenu();
@@ -154,7 +152,7 @@ class FoodoraApp
                             case "3": // Send order
                                 try
                                 {
-                                    order.setStatus("PLACED");
+                                    ((Customer) user).sendOrder(order);
                                     ordering = false;
                                 }
                                 catch (Exception e)
@@ -248,5 +246,18 @@ class FoodoraApp
         users.add(new Customer("Indian", "almafa1234", "indian@gmail.com"));
         users.add(new Customer("Meggyecske", "Eperke", "meggy@kokusz.golyo"));
         users.add(new Customer("Arany Aron", "sokpenz", "arany.aron@gmail.com"));
+        users.add(new Restaurant("pizzaplace", "pineapple", "pizza@pizza.com"));
+        users.add(new Restaurant("sushiplace", "salmon", "sushi@nigiri.com"));
+        users.add(new Restaurant("meki", "mcdonalds", "meki@mcdonalds.com"));
+        users.add(new Restaurant("KFC Veszprem", "chickensForKFC", "veszprem@kfc.com"));
+        users.add(new Courier("Istvan", "pityu", "istvan@freemail.hu"));
+        users.add(new Courier("Janos", "jani", "janos@citromail.hu"));
+        users.add(new Courier("Karoly", "karcsi", "karoly@gmail.com"));
+        users.add(new Courier("Kala Pal", "haha", "palko@funny.com"));
+
+        users.getRestaurantByIndex(0).addItemToMenu(new Item("szalamis32", 1870, "32cm normal"));
+        users.getRestaurantByIndex(0).addItemToMenu(new Item("sonkas32", 1990, "32cm normal"));
+        users.getRestaurantByIndex(0).addItemToMenu(new Item("szalamis45", 3200.12, "45cm normal"));
+        users.getRestaurantByIndex(0).addItemToMenu(new Item("sonkas45", 3500, "45cm normal"));
     }
 }

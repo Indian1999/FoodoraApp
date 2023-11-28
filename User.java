@@ -57,13 +57,6 @@ class User
         email = newMail;
     }
 
-    public void listRestaurants()
-    {
-    }
-
-    public void listRestaurantMenu()
-    {
-    }
 
     public void listCommands()
     {

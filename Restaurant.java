@@ -1,9 +1,10 @@
+import java.util.ArrayList;
 import java.util.List;
 
 class Restaurant extends User
 {
-    private List<Item> menu;
-    private List<Order> activeOrders;
+    private List<Item> menu = new ArrayList<Item>();
+    private List<Order> activeOrders = new ArrayList<Order>();
 
     public Restaurant(String username, String pw, String email)
     {
@@ -38,6 +39,7 @@ class Restaurant extends User
     {
         activeOrders.add(o);
     }
+
     public void setOrderReady(Order o) throws Exception
     {
         if (activeOrders.contains(o))
@@ -56,4 +58,16 @@ class Restaurant extends User
             throw new Exception("This restaurant does not have this order.");
         }
     }
+
+    public void listRestaurantMenu()
+    {
+        int index = 1;
+        for (Item item : menu)
+        {
+            System.out.println(index + ". - " + item.getName() + ", " + item.getPrice() +
+                               ", category: " + item.getCategory());
+            index++;
+        }
+    }
+
 }
