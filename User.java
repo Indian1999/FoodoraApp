@@ -9,10 +9,13 @@ class User
     User(String username, String pw, String email)
     {
         PrintWriter userWriter = null;
-        try {
+        try
+        {
 
             userWriter = new PrintWriter(new FileOutputStream(new File("Felhasználók.txt"), true));
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e)
+        {
             e.printStackTrace();
         }
         this.username = username;
@@ -22,7 +25,6 @@ class User
         userWriter.println(pw);
         userWriter.println(email);
         userWriter.close();
-
     }
 
     public String getUsername()
@@ -57,24 +59,17 @@ class User
 
     public void listRestaurants()
     {
-
     }
 
     public void listRestaurantMenu()
     {
-        
     }
 
     public void listCommands()
     {
-<<<<<<< HEAD
-
     }
 
     public void executeCommand(String command)
     {
-
-=======
->>>>>>> 5ad4cd67f8aab998e875f5d7d7277c2cbddfbae4
     }
 }

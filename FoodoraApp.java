@@ -5,7 +5,6 @@ class FoodoraApp
 
     public static void main(String[] args)
     {
-<<<<<<< HEAD
         System.out.println("Welcome to our food ordering application!");
         FoodoraApp app = new FoodoraApp();
         while (true)
@@ -15,6 +14,10 @@ class FoodoraApp
             if (app.user instanceof Visitor)
             {
                 app.executeCommand((Visitor)app.user, input);
+            }
+            else
+            {
+                System.exit(0);
             }
         }
     }
@@ -32,7 +35,8 @@ class FoodoraApp
             {
                 user = users.loginUser(loginInfo[0], loginInfo[1]);
                 System.out.println("Successful login!");
-                System.out.println("You are now logged in as " + user.getUsername() + " (" + user.getClass() + ")");
+                System.out.println("You are now logged in as " + user.getUsername() + " (" +
+                                   user.getClass().toString().split(" ")[1] + ")");
             }
             catch (Exception e)
             {
@@ -59,28 +63,12 @@ class FoodoraApp
                 System.out.println("There is no restaurant with this number!");
             }
             break;
+        case "5":
+            System.exit(0);
+            break;
         default:
             System.out.println("Unknown command!");
             break;
-=======
-        System.out.println("Köszöntjük az ételrendelő applikációban!");
-        Visitor visitor = new Visitor();
-        while (true)
-        {
-            visitor.listCommands();
-            String input = System.console().readLine();
-            switch (input) {
-                case "1":
-                    visitor.register();
-                    break;
-            
-                case "2":
-                    visitor.login();
-                    break;
-                default:
-                    break;
-            }
->>>>>>> 5ad4cd67f8aab998e875f5d7d7277c2cbddfbae4
         }
     }
 }
