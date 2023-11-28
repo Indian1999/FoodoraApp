@@ -10,11 +10,16 @@ class Restaurant extends User
         super(username, pw, email);
     }
 
+    public List<Order> getActiveOrders()
+    {
+        return activeOrders;
+    }
+
     public List<Item> getMenu()
     {
         return menu;
     }
-    
+
     public void addItemToMenu(Item item)
     {
         menu.add(item);
@@ -24,10 +29,9 @@ class Restaurant extends User
     {
         // TO BE IMPLEMENTED
     }
-    
+
     public void executeCommand(String command)
     {
-
     }
 
     public void receiveOrder(Order o)
@@ -38,9 +42,12 @@ class Restaurant extends User
     {
         if (activeOrders.contains(o))
         {
-            try {
+            try
+            {
                 o.setStatus("READY");
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
             }
         }

@@ -4,7 +4,7 @@ class Admin extends User
     {
         super(username, pw, email);
     }
-    
+
     public void createRestaurant(String username, String pw, String email)
     {
         // TO BE IMPLEMENTED
@@ -34,9 +34,8 @@ class Admin extends User
     {
         // TO BE IMPLEMENTED
     }
-    
+
     public void executeCommand(String command)
     {
-
     }
 }

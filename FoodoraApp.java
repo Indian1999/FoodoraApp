@@ -1,3 +1,5 @@
+import java.nio.charset.StandardCharsets;
+
 class FoodoraApp
 {
     private UserContainer users = new UserContainer();
@@ -7,6 +9,7 @@ class FoodoraApp
     {
         System.out.println("Welcome to our food ordering application!");
         FoodoraApp app = new FoodoraApp();
+        app.createTestUsers();
         while (true)
         {
             app.user.listCommands();
@@ -30,7 +33,7 @@ class FoodoraApp
         switch (command)
         {
             case "0":
-                System.exit(0);
+                exitApplication();
                 break;
             case "1":
                 System.out.println("Enter your address:");
@@ -176,7 +179,7 @@ class FoodoraApp
             case "8":
                 user = new Visitor();
                 break;
-                default:
+            default:
                 System.out.println("Unknown command!");
                 break;
         }
@@ -187,7 +190,7 @@ class FoodoraApp
         switch (command)
         {
             case "0":
-                System.exit(0);
+                exitApplication();
                 break;
             case "1":
                 users.add(v.register());
@@ -230,5 +233,20 @@ class FoodoraApp
                 System.out.println("Unknown command!");
                 break;
         }
+    }
+
+    public void exitApplication()
+    {
+        users.exportToFile("users.txt");
+        System.exit(0);
+    }
+
+    public void createTestUsers()
+    {
+        users.add(new Admin("John Doe", "12345", "john.doe@foodapp.com"));
+        users.add(new Admin("Kukor Ica", "almafa", "kukor.ica@foodapp.com"));
+        users.add(new Customer("Indian", "almafa1234", "indian@gmail.com"));
+        users.add(new Customer("Meggyecske", "Eperke", "meggy@kokusz.golyo"));
+        users.add(new Customer("Arany Aron", "sokpenz", "arany.aron@gmail.com"));
     }
 }

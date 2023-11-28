@@ -10,6 +10,7 @@ class Customer extends User
     Customer(String username, String pw, String email)
     {
         super(username, pw, email);
+        address = null;
     }
 
     public String getAddress()
@@ -20,6 +21,16 @@ class Customer extends User
     public void setAddress(String newAddress)
     {
         address = newAddress;
+    }
+
+    public List<Order> getPastOrders()
+    {
+        return pastOrders;
+    }
+
+    public List<Restaurant> getFavouriteRestaurants()
+    {
+        return favouriteRestaurants;
     }
 
     public void addFavouriteRestaurant(Restaurant r)

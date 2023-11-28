@@ -12,7 +12,7 @@ class User
         try
         {
 
-            userWriter = new PrintWriter(new FileOutputStream(new File("Felhasználók.txt"), true));
+            userWriter = new PrintWriter(new FileOutputStream(new File("users.txt"), true));
         }
         catch (FileNotFoundException e)
         {
@@ -21,9 +21,9 @@ class User
         this.username = username;
         this.password = pw;
         this.email = email;
-        userWriter.println(username);
-        userWriter.println(pw);
-        userWriter.println(email);
+        //userWriter.println(username);
+        //userWriter.println(pw);
+        //userWriter.println(email);
         userWriter.close();
     }
 

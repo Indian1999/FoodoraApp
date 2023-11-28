@@ -23,6 +23,16 @@ class Courier extends User
         }
     }
 
+    public Order getActiveDelivery()
+    {
+        return activeDelivery;
+    }
+
+    public List<Order> getPastDeliveries()
+    {
+        return pastDeliveries;
+    }
+
     public void completeDelivery()
     {
         try
