@@ -5,6 +5,7 @@ class FoodoraApp
 
     public static void main(String[] args)
     {
+<<<<<<< HEAD
         System.out.println("Welcome to our food ordering application!");
         FoodoraApp app = new FoodoraApp();
         while (true)
@@ -61,6 +62,25 @@ class FoodoraApp
         default:
             System.out.println("Unknown command!");
             break;
+=======
+        System.out.println("Köszöntjük az ételrendelő applikációban!");
+        Visitor visitor = new Visitor();
+        while (true)
+        {
+            visitor.listCommands();
+            String input = System.console().readLine();
+            switch (input) {
+                case "1":
+                    visitor.register();
+                    break;
+            
+                case "2":
+                    visitor.login();
+                    break;
+                default:
+                    break;
+            }
+>>>>>>> 5ad4cd67f8aab998e875f5d7d7277c2cbddfbae4
         }
     }
 }

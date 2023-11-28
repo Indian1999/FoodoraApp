@@ -67,11 +67,14 @@ class User
 
     public void listCommands()
     {
+<<<<<<< HEAD
 
     }
 
     public void executeCommand(String command)
     {
 
+=======
+>>>>>>> 5ad4cd67f8aab998e875f5d7d7277c2cbddfbae4
     }
 }
