@@ -1,8 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +12,122 @@ class UserContainer
 
     UserContainer()
     {
-        // TO BE IMPLEMENTED
-        // IMPORT FROM FILE IF POSSIBLE
+       /* BufferedReader usersFile = null;
+        try {
+            usersFile = new BufferedReader(new InputStreamReader(new FileInputStream("users.txt"),StandardCharsets.UTF_16));
+
+            String line = usersFile.readLine(); // burning first line 'admin'
+            //read admins
+            while(line != null){
+                
+                line = usersFile.readLine();
+                if(line.equals("couriers")) break;
+                //System.out.println(line);
+                
+                String [] elements = line.split(";");
+                String name = elements[0];
+                String pw = elements[1];
+                String email = elements[2];
+                
+
+                admins.add(new Admin(name, pw, email));
+            }
+            
+            //read couriers
+            while(line != null) {
+
+                line = usersFile.readLine();
+                if(line.equals("restaurants")) break;
+
+                String [] elements = line.split(";");
+                String name = elements[0];
+                String pw = elements[1];
+                String email = elements[2];
+
+                
+                couriers.add(new Courier(name, pw, email));
+                
+
+                // TODO GET PAST AND ACTIVE DELIVERIES
+
+            }
+
+
+            while(line != null) {
+                line = usersFile.readLine();
+                if(line.equals("customers")) break;
+
+                String [] elements = line.split(";");
+                String name = elements[0];
+                String pw = elements[1];
+                String email = elements[2];
+
+                Restaurant res = new Restaurant(name, pw, email);
+                
+                //get restaurant menu size and fill menu with items
+                int menuSize = Integer.parseInt(usersFile.readLine());
+                for(int i=0;i<menuSize;i++) {
+                    String [] menuItem = usersFile.readLine().split(";");
+                    Item item = new Item(menuItem[0], Double.parseDouble(menuItem[1]), menuItem[2]);
+                    res.addItemToMenu(item);
+                }
+
+
+                //get restaurant active order size
+                int actOrderSize = Integer.parseInt(usersFile.readLine());
+                for(int i=0;i<actOrderSize;i++) {
+                    String [] orderItems = usersFile.readLine().split(";");
+                    Order order = new Order(null, res);
+                }
+
+            }
+
+
+            while (line != null) {
+                line = usersFile.readLine();
+                String [] elements = line.split(";");
+                String name = elements[0];
+                String pw = elements[1];
+                String email = elements[2];
+
+                Customer customer = new Customer(name, pw, email);
+
+                //get past orders
+                int pastOrderSize = Integer.parseInt(usersFile.readLine());
+                for(int i=0;i<pastOrderSize;i++) {
+                    String [] orderItems = usersFile.readLine().split(";");
+                    Order order = new Order(customer, null);
+                    //writer.write(order.getCustomer().getEmail() + ";" + order.getRestaurant().getUsername() +
+                                    // ";" + order.getCourier() + ";" + order.getStatus());
+                    order.setStatus(orderItems[3]);
+                } 
+            }
+
+        
+
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                usersFile.close();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }*/
+
+        
+
+        
     }
 
     public List<Admin> getAdmins()
@@ -295,7 +405,7 @@ class UserContainer
                 {
                     try
                     {
-                        writer.write(order.getCustomer().getEmail() + ";" + order.getRestaurant() +
+                        writer.write(order.getCustomer().getEmail() + ";" + order.getRestaurant().getUsername() +
                                      ";" + order.getCourier() + ";" + order.getStatus());
                         for (Item item : order.getItems())
                         {
@@ -308,7 +418,7 @@ class UserContainer
                     {
                         e.printStackTrace();
                     }
-                }
+                } // IDK IF getfav restaurant is necessary ?!
                 if (customer.getFavouriteRestaurants() == null)
                 {
                     writer.println(0);
