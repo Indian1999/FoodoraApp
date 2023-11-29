@@ -28,6 +28,11 @@ class Customer extends User
         return pastOrders;
     }
 
+    public void setPastOrders(List<Order> pastOrders)
+    {
+        this.pastOrders = pastOrders;
+    }
+
     public List<Restaurant> getFavouriteRestaurants()
     {
         return favouriteRestaurants;
@@ -62,6 +67,15 @@ class Customer extends User
         System.out.println("5. List restaurants");
         System.out.println("6. List restaurant menu");
         System.out.println("7. Choose restaurant");
-        System.out.println("8. Logout");
+        System.out.println("8. List past orders");
+        System.out.println("9. Logout");
+    }
+
+    public void listPastOrders()
+    {
+        for (Order order : pastOrders)
+        {
+            System.out.println(order.toString());
+        }
     }
 }

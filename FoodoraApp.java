@@ -152,7 +152,7 @@ class FoodoraApp
                             case "3": // Send order
                                 try
                                 {
-                                    ((Customer) user).sendOrder(order);
+                                    ((Customer)user).sendOrder(order);
                                     ordering = false;
                                 }
                                 catch (Exception e)
@@ -175,6 +175,9 @@ class FoodoraApp
                 }
                 break;
             case "8":
+                ((Customer)user).listPastOrders();
+                break;
+            case "9":
                 user = new Visitor();
                 break;
             default:

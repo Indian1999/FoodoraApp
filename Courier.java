@@ -32,6 +32,11 @@ class Courier extends User
     {
         return pastDeliveries;
     }
+    
+    public void setPastDeliveries(List<Order> pastDeliveries) 
+    {
+        this.pastDeliveries = pastDeliveries;
+    }
 
     public void completeDelivery()
     {
@@ -60,4 +65,5 @@ class Courier extends User
     public void executeCommand(String command)
     {
     }
+
 }

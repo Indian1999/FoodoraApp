@@ -16,6 +16,11 @@ class Restaurant extends User
         return activeOrders;
     }
 
+    public void setActiveOrders(List<Order> activeOrders)
+    {
+        this.activeOrders = activeOrders;
+    }
+
     public List<Item> getMenu()
     {
         return menu;
@@ -69,5 +74,4 @@ class Restaurant extends User
             index++;
         }
     }
-
 }

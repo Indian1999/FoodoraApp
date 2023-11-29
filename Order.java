@@ -22,11 +22,26 @@ class Order
     private LocalDateTime orderDeliveryPickup;
     private LocalDateTime orderDelivered;
 
-    Order(Customer c, Restaurant r)
+    Order(Customer customer, Restaurant restaurant)
     {
-        this.customer = c;
-        this.restaurant = r;
+        this.customer = customer;
+        this.restaurant = restaurant;
         this.status = Status.BEING_ORDERED;
+    }
+
+    Order(Customer customer, Restaurant restaurant, Courier courier, String status)
+    {
+        this.customer = customer;
+        this.restaurant = restaurant;
+        this.courier = courier;
+        try
+        {
+            setStatus(status);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public Customer getCustomer()
@@ -63,7 +78,7 @@ class Order
     {
         return items;
     }
-    
+
     public void addItem(Item item)
     {
         items.add(item);
@@ -121,15 +136,15 @@ class Order
 
     public String getStatus() throws Exception
     {
-        if (status == Status.BEING_ORDERED)
+        if (status.equals(Status.BEING_ORDERED))
             return "BEING_ORDERED";
-        else if (status == Status.PLACED)
+        else if (status.equals(Status.PLACED))
             return "PLACED";
-        else if (status == Status.READY)
+        else if (status.equals(Status.READY))
             return "READY";
-        else if (status == Status.BEING_DELIVERED)
+        else if (status.equals(Status.BEING_DELIVERED))
             return "BEING_DELIVERED";
-        else if (status == Status.DELIVERED)
+        else if (status.equals(Status.DELIVERED))
             return "DELLIVERED";
         else
             throw new Exception("Status is not set!");
@@ -137,19 +152,40 @@ class Order
 
     public void setStatus(String status) throws Exception
     {
-        if (status == "BEING_ORDERED")
+        if (status.equals("BEING_ORDERED"))
             this.status = Status.BEING_ORDERED;
-        else if (status == "PLACED")
+        else if (status.equals("PLACED"))
             this.status = Status.PLACED;
-        else if (status == "READY")
+        else if (status.equals("READY"))
             this.status = Status.READY;
-        else if (status == "BEING_DELIVERED")
+        else if (status.equals("BEING_DELIVERED"))
             this.status = Status.BEING_DELIVERED;
-        else if (status == "DELIVERED")
+        else if (status.equals("DELIVERED"))
             this.status = Status.DELIVERED;
         else
-            throw new Exception("Invalid status to set");
+            throw new Exception("Invalid status to set (" + status + ")");
     }
 
-    public void listItems() {}
+    public void listItems()
+    {
+    }
+
+    public String toString()
+    {
+        String output = "";
+        try
+        {
+            output += this.getCustomer().getEmail() + ";" + this.getRestaurant().getUsername() +
+                     ";" + this.getCourier().getUsername() + ";" + this.getStatus();
+            for (Item item : this.getItems())
+            {
+                output += ";" + item.getName() + ";" + item.getPrice() + ";" + item.getCategory();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return output;
+    }
 }
