@@ -7,7 +7,7 @@ class FoodoraApp
     {
         System.out.println("Welcome to our food ordering application!");
         FoodoraApp app = new FoodoraApp();
-        app.createTestUsers();
+        //app.createTestUsers();
         while (true)
         {
             app.user.listCommands();

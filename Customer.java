@@ -78,4 +78,9 @@ class Customer extends User
             System.out.println(order.toString());
         }
     }
+
+    public void addToPastOrders(Order order)
+    {
+        pastOrders.add(order);
+    }
 }

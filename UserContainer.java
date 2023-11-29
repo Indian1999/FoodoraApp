@@ -12,187 +12,26 @@ class UserContainer
 
     UserContainer()
     {
-        /* 
-        Az orderek beolvasása miatt nem működik, null értékekkel tölti fel az Order osztály Restaurant, Courier, Customer paramétereit, mert ezeket név alapján kérdezzük le a listájukból, ahol még nem léteznek.
-        Megoldás:
-        Az Ordereket lehetne külön fileban tárolni és csak azután beolvasni, hogy a usereket már beolvastuk, ehhez újra kell struktúrálni a filba írást és olvasást is egy kicsit amihez már hulla vagyok a kevés alvás miatt így estére, úgyhogy folyt köv holnap.
-        BufferedReader usersFile = null;
+        /*
+        Az orderek beolvasása miatt nem működik, null értékekkel tölti fel az Order osztály
+        Restaurant, Courier, Customer paramétereit, mert ezeket név alapján kérdezzük le a
+        listájukból, ahol még nem léteznek. Megoldás: Az Ordereket lehetne külön fileban tárolni és
+        csak azután beolvasni, hogy a usereket már beolvastuk, ehhez újra kell struktúrálni a filba
+        írást és olvasást is egy kicsit amihez már hulla vagyok a kevés alvás miatt így estére,
+        úgyhogy folyt köv holnap.*/
+        BufferedReader reader = null;
         try
         {
-            usersFile = new BufferedReader(
+            reader = new BufferedReader(
                 new InputStreamReader(new FileInputStream("users.txt"), StandardCharsets.UTF_16));
+            readAdmins(reader);
+            readCouriers(reader);
+            readRestaurants(reader);
+            readCustomers(reader);
 
-            String line = usersFile.readLine(); // burning first line 'admin'
-            // read admins
-            while (line != null)
-            {
-
-                line = usersFile.readLine();
-                if (line.equals("couriers"))
-                    break;
-                // System.out.println(line);
-
-                String[] elements = line.split(";");
-                String name = elements[0];
-                String pw = elements[1];
-                String email = elements[2];
-
-                admins.add(new Admin(name, pw, email));
-            }
-
-            // read couriers
-            while (line != null)
-            {
-
-                line = usersFile.readLine();
-                if (line.equals("restaurants"))
-                    break;
-
-                String[] elements = line.split(";");
-                String name = elements[0];
-                String pw = elements[1];
-                String email = elements[2];
-
-                Courier courier = new Courier(name, pw, email);
-
-                // Reading past deliveries
-
-                List<Order> pastDeliveries = new ArrayList<>();
-                int numberOfPastOrders = Integer.parseInt(usersFile.readLine());
-                for (int i = 0; i < numberOfPastOrders; i++)
-                {
-                    line = usersFile.readLine();
-                    String[] orderElements = line.split(";");
-                    String customerEmail = orderElements[0];
-                    String restaurantName = orderElements[1];
-                    String courierName = orderElements[2];
-                    String status = orderElements[3];
-                    Order order = new Order(getCustomerByEmail(customerEmail),
-                                            getRestaurantByName(restaurantName),
-                                            getCourierByName(courierName), status);
-                    for (int j = 4; j < orderElements.length; j += 3)
-                    {
-                        order.addItem(new Item(orderElements[j],
-                                               Double.parseDouble(orderElements[j + 1]),
-                                               orderElements[j + 2]));
-                    }
-                    pastDeliveries.add(order);
-                }
-                courier.setPastDeliveries(pastDeliveries);
-
-                // reading activeDelivery
-
-                line = usersFile.readLine();
-                if (!line.equals("0"))
-                {
-                    String[] orderElements = line.split(";");
-                    String customerEmail = orderElements[0];
-                    String restaurantName = orderElements[1];
-                    String courierName = orderElements[2];
-                    String status = orderElements[3];
-                    Order order = new Order(getCustomerByEmail(customerEmail),
-                                            getRestaurantByName(restaurantName),
-                                            getCourierByName(courierName), status);
-                    for (int j = 4; j < orderElements.length; j += 3)
-                    {
-                        order.addItem(new Item(orderElements[j],
-                                               Double.parseDouble(orderElements[j + 1]),
-                                               orderElements[j + 2]));
-                    }
-                    courier.setActiveDelivery(order);
-                }
-                couriers.add(courier);
-            }
-
-            while (line != null)
-            {
-                line = usersFile.readLine();
-                if (line.equals("customers"))
-                    break;
-
-                String[] elements = line.split(";");
-                String name = elements[0];
-                String pw = elements[1];
-                String email = elements[2];
-
-                Restaurant res = new Restaurant(name, pw, email);
-
-                // get restaurant menu size and fill menu with items
-                int menuSize = Integer.parseInt(usersFile.readLine());
-                for (int i = 0; i < menuSize; i++)
-                {
-                    String[] menuItem = usersFile.readLine().split(";");
-                    Item item = new Item(menuItem[0], Double.parseDouble(menuItem[1]), menuItem[2]);
-                    res.addItemToMenu(item);
-                }
-
-                // get restaurant active orders
-                List<Order> activeOrders = new ArrayList<>();
-                int numberOfOrders = Integer.parseInt(usersFile.readLine());
-                for (int i = 0; i < numberOfOrders; i++)
-                {
-                    line = usersFile.readLine();
-                    String[] orderElements = line.split(";");
-                    String customerEmail = orderElements[0];
-                    String restaurantName = orderElements[1];
-                    String courierName = orderElements[2];
-                    String status = orderElements[3];
-                    Order order = new Order(getCustomerByEmail(customerEmail),
-                                            getRestaurantByName(restaurantName),
-                                            getCourierByName(courierName), status);
-                    for (int j = 4; j < orderElements.length; j += 3)
-                    {
-                        order.addItem(new Item(orderElements[j],
-                                               Double.parseDouble(orderElements[j + 1]),
-                                               orderElements[j + 2]));
-                    }
-                    activeOrders.add(order);
-                }
-                res.setActiveOrders(activeOrders);
-                restaurants.add(res);
-            }
-
-            while (line != null)
-            {
-                line = usersFile.readLine();
-                if (line == null)
-                    break;
-                String[] elements = line.split(";");
-                if (elements.length == 1)
-                    break;
-                String name = elements[0];
-                String pw = elements[1];
-                String email = elements[2];
-                String address = elements[3];
-
-                Customer customer = new Customer(name, pw, email);
-                customer.setAddress(address);
-
-                // get past orders
-                List<Order> pastOrders = new ArrayList<>();
-                int numberOfOrders = Integer.parseInt(usersFile.readLine());
-                for (int i = 0; i < numberOfOrders; i++)
-                {
-                    line = usersFile.readLine();
-                    String[] orderElements = line.split(";");
-                    String customerEmail = orderElements[0];
-                    String restaurantName = orderElements[1];
-                    String courierName = orderElements[2];
-                    String status = orderElements[3];
-                    Order order = new Order(customer,
-                                            getRestaurantByName(restaurantName),
-                                            getCourierByName(courierName), status);
-                    for (int j = 4; j < orderElements.length; j += 3)
-                    {
-                        order.addItem(new Item(orderElements[j],
-                                               Double.parseDouble(orderElements[j + 1]),
-                                               orderElements[j + 2]));
-                    }
-                    pastOrders.add(order);
-                }
-                customer.setPastOrders(pastOrders);
-                customers.add(customer);
-            }
+            reader = new BufferedReader(
+                new InputStreamReader(new FileInputStream("orders.txt"), StandardCharsets.UTF_16));
+            readOrders(reader);
         }
         catch (IOException e)
         {
@@ -206,13 +45,13 @@ class UserContainer
         {
             try
             {
-                usersFile.close();
+                reader.close();
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
-        }*/
+        }
     }
 
     public List<Admin> getAdmins()
@@ -315,7 +154,7 @@ class UserContainer
     {
         for (Customer customer : customers)
         {
-            if (customer.getUsername().equals(email))
+            if (customer.getEmail().equals(email))
             {
                 return customer;
             }
@@ -377,158 +216,67 @@ class UserContainer
         }
     }
 
-    public void exportToFile(String path)
+    private void exportAdmins(PrintWriter writer)
+    {
+        writer.println("admins");
+        for (Admin admin : admins)
+        {
+            writer.write(admin.getUsername() + ";" + admin.getPassword() + ";" + admin.getEmail() +
+                         "\n");
+        }
+    }
+    private void exportCouriers(PrintWriter writer)
+    {
+        writer.println("couriers");
+        for (Courier courier : couriers)
+        {
+            writer.println(courier.getUsername() + ";" + courier.getPassword() + ";" +
+                           courier.getEmail());
+        }
+    }
+
+    private void exportRestaurants(PrintWriter writer)
+    {
+        writer.println("restaurants");
+        for (Restaurant restaurant : restaurants)
+        {
+            writer.write(restaurant.getUsername() + ";" + restaurant.getPassword() + ";" +
+                         restaurant.getEmail() + "\n");
+            if (restaurant.getMenu() == null)
+            {
+                writer.println(0);
+            }
+            else
+            {
+                writer.println(restaurant.getMenu().size());
+                for (Item item : restaurant.getMenu())
+                {
+                    writer.write(item.getName() + ";" + item.getPrice() + ";" + item.getCategory() +
+                                 "\n");
+                }
+            }
+        }
+    }
+
+    private void exportCustomers(PrintWriter writer)
+    {
+        writer.println("customers");
+        for (Customer customer : customers)
+        {
+            writer.write(customer.getUsername() + ";" + customer.getPassword() + ";" +
+                         customer.getEmail() + ";" + customer.getAddress() + "\n");
+        }
+    }
+
+    private void exportOrders(String filename)
     {
         PrintWriter writer = null;
         try
         {
             writer = new PrintWriter(new OutputStreamWriter(
-                new FileOutputStream(new File("users.txt")), StandardCharsets.UTF_16));
-            writer.println("admins");
-            for (Admin admin : admins)
-            {
-                writer.write(admin.getUsername() + ";" + admin.getPassword() + ";" +
-                             admin.getEmail() + "\n");
-            }
-            writer.println("couriers");
-            for (Courier courier : couriers)
-            {
-                writer.println(courier.getUsername() + ";" + courier.getPassword() + ";" +
-                               courier.getEmail());
-                if (courier.getPastDeliveries() == null)
-                {
-                    writer.println(0);
-                }
-                else
-                {
-                    writer.println(courier.getPastDeliveries().size());
-                    for (Order order : courier.getPastDeliveries())
-                    {
-                        try
-                        {
-                            writer.write(order.getCustomer().getEmail() + ";" +
-                                         order.getRestaurant().getUsername() + ";" +
-                                         order.getCourier().getUsername() + ";" +
-                                         order.getStatus());
-                            for (Item item : order.getItems())
-                            {
-                                writer.write(";" + item.getName() + ";" + item.getPrice() + ";" +
-                                             item.getCategory());
-                            }
-                            writer.write("\n");
-                        }
-                        catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                if (courier.getActiveDelivery() == null)
-                {
-                    writer.println(0);
-                }
-                else
-                {
-                    try
-                    {
-                        writer.write(courier.getActiveDelivery().getCustomer().getEmail() + ";" +
-                                     courier.getActiveDelivery().getRestaurant() + ";" +
-                                     courier.getActiveDelivery().getCourier() + ";" +
-                                     courier.getActiveDelivery().getStatus());
-                        for (Item item : courier.getActiveDelivery().getItems())
-                        {
-                            writer.write(";" + item.getName() + ";" + item.getPrice() + ";" +
-                                         item.getCategory());
-                        }
-                        writer.write("\n");
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            writer.println("restaurants");
-            for (Restaurant restaurant : restaurants)
-            {
-                writer.write(restaurant.getUsername() + ";" + restaurant.getPassword() + ";" +
-                             restaurant.getEmail() + "\n");
-                if (restaurant.getMenu() == null)
-                {
-                    writer.println(0);
-                }
-                else
-                {
-                    writer.println(restaurant.getMenu().size());
-                    for (Item item : restaurant.getMenu())
-                    {
-                        writer.write(item.getName() + ";" + item.getPrice() + ";" +
-                                     item.getCategory() + "\n");
-                    }
-                }
-                if (restaurant.getActiveOrders() == null)
-                {
-                    writer.println(0);
-                }
-                else
-                {
-                    writer.println(restaurant.getActiveOrders().size());
-                    for (Order order : restaurant.getActiveOrders())
-                    {
-                        try
-                        {
-                            if (order.getCustomer() == null)
-                            {
-                                writer.write("null;");
-                            }
-                            else
-                            {
-                                writer.write(order.getCustomer().getEmail() + ";");
-                            }
-                            if (order.getRestaurant() == null)
-                            {
-                                writer.write("null;");
-                            }
-                            else
-                            {
-                                writer.write(order.getRestaurant().getUsername() + ";");
-                            }
-                            if (order.getCourier() == null)
-                            {
-                                writer.write("null;");
-                            }
-                            else
-                            {
-                                writer.write(order.getCourier().getUsername() + ";");
-                            }
-                            writer.write(order.getStatus());
-                            for (Item item : order.getItems())
-                            {
-                                writer.write(";" + item.getName() + ";" + item.getPrice() + ";" +
-                                             item.getCategory());
-                            }
-                            writer.write("\n");
-                        }
-                        catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-            writer.println("customers");
+                new FileOutputStream(new File(filename)), StandardCharsets.UTF_16));
             for (Customer customer : customers)
             {
-                writer.write(customer.getUsername() + ";" + customer.getPassword() + ";" +
-                             customer.getEmail() + ";" + customer.getAddress() + "\n");
-                if (customer.getPastOrders() == null)
-                {
-                    writer.println(0);
-                }
-                else
-                {
-                    writer.println(customer.getPastOrders().size());
-                }
                 for (Order order : customer.getPastOrders())
                 {
                     try
@@ -547,26 +295,40 @@ class UserContainer
                     {
                         e.printStackTrace();
                     }
-                } // IDK IF getfav restaurant is necessary ?!
-                if (customer.getFavouriteRestaurants() == null)
-                {
-                    writer.write(0 + "\n");
-                }
-                else
-                {
-                    writer.write(customer.getFavouriteRestaurants().size() + "\n");
-                }
-                for (int i = 0; i < customer.getFavouriteRestaurants().size() - 1; i++)
-                {
-                    writer.write(customer.getFavouriteRestaurants().get(i).getUsername() + ";");
-                }
-                if (customer.getFavouriteRestaurants().size() != 0)
-                {
-                    writer.write(customer.getFavouriteRestaurants()
-                                     .get(customer.getFavouriteRestaurants().size() - 1)
-                                     .getUsername());
                 }
             }
+        }
+        catch (IOException e)
+        {
+            System.out.println("Error when writing orders to file!");
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                writer.close();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void exportToFile(String path)
+    {
+        PrintWriter writer = null;
+        try
+        {
+            writer = new PrintWriter(new OutputStreamWriter(
+                new FileOutputStream(new File("users.txt")), StandardCharsets.UTF_16));
+            exportAdmins(writer);
+            exportCouriers(writer);
+            exportRestaurants(writer);
+            exportCustomers(writer);
+
+            exportOrders("orders.txt");
         }
         catch (FileNotFoundException e)
         {
@@ -582,6 +344,165 @@ class UserContainer
             {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void readAdmins(BufferedReader usersFile) throws IOException
+    {
+        String line = usersFile.readLine(); // burning first line 'admin'
+        // read admins
+        while (line != null)
+        {
+
+            line = usersFile.readLine();
+            if (line.equals("couriers"))
+                break;
+            // System.out.println(line);
+
+            String[] elements = line.split(";");
+            String name = elements[0];
+            String pw = elements[1];
+            String email = elements[2];
+
+            admins.add(new Admin(name, pw, email));
+        }
+    }
+    private void readCouriers(BufferedReader usersFile) throws IOException
+    {
+        String line = "";
+        while (line != null)
+        {
+
+            line = usersFile.readLine();
+            if (line.equals("restaurants"))
+                break;
+
+            String[] elements = line.split(";");
+            String name = elements[0];
+            String pw = elements[1];
+            String email = elements[2];
+
+            couriers.add(new Courier(name, pw, email));
+        }
+    }
+    private void readRestaurants(BufferedReader usersFile) throws IOException
+    {
+        String line = "";
+        while (line != null)
+        {
+            line = usersFile.readLine();
+            if (line.equals("customers"))
+                break;
+
+            String[] elements = line.split(";");
+            String name = elements[0];
+            String pw = elements[1];
+            String email = elements[2];
+
+            Restaurant res = new Restaurant(name, pw, email);
+
+            // get restaurant menu size and fill menu with items
+            int menuSize = Integer.parseInt(usersFile.readLine());
+            for (int i = 0; i < menuSize; i++)
+            {
+                String[] menuItem = usersFile.readLine().split(";");
+                Item item = new Item(menuItem[0], Double.parseDouble(menuItem[1]), menuItem[2]);
+                res.addItemToMenu(item);
+            }
+            restaurants.add(res);
+
+            /*
+            List<Order> activeOrders = new ArrayList<>();
+            int numberOfOrders = Integer.parseInt(usersFile.readLine());
+            for (int i = 0; i < numberOfOrders; i++)
+            {
+                line = usersFile.readLine();
+                String[] orderElements = line.split(";");
+                String customerEmail = orderElements[0];
+                String restaurantName = orderElements[1];
+                String courierName = orderElements[2];
+                String status = orderElements[3];
+                Order order = new Order(getCustomerByEmail(customerEmail),
+                                        getRestaurantByName(restaurantName),
+                                        getCourierByName(courierName), status);
+                for (int j = 4; j < orderElements.length; j += 3)
+                {
+                    order.addItem(new Item(orderElements[j],
+                                           Double.parseDouble(orderElements[j + 1]),
+                                           orderElements[j + 2]));
+                }
+                activeOrders.add(order);
+            }
+            res.setActiveOrders(activeOrders);*/
+        }
+    }
+    private void readCustomers(BufferedReader usersFile) throws IOException
+    {
+        String line = "";
+        while (line != null)
+        {
+            line = usersFile.readLine();
+            if (line == null)
+                break;
+            String[] elements = line.split(";");
+            if (elements.length == 1)
+                break;
+            String name = elements[0];
+            String pw = elements[1];
+            String email = elements[2];
+            String address = elements[3];
+
+            Customer customer = new Customer(name, pw, email);
+            customer.setAddress(address);
+            customers.add(customer);
+        }
+    }
+
+    private void readOrders(BufferedReader reader)
+    {
+        try
+        {
+            String line = "";
+            while (line != null)
+            {
+                line = reader.readLine();
+                if (line == null)
+                    break;
+                String[] orderElements = line.split(";");
+                String customerEmail = orderElements[0];
+                String restaurantName = orderElements[1];
+                String courierName = orderElements[2];
+                String status = orderElements[3];
+                Order order = new Order(getCustomerByEmail(customerEmail),
+                                        getRestaurantByName(restaurantName),
+                                        getCourierByName(courierName), status);
+                for (int j = 4; j < orderElements.length; j += 3)
+                {
+                    order.addItem(new Item(orderElements[j],
+                                           Double.parseDouble(orderElements[j + 1]),
+                                           orderElements[j + 2]));
+                }
+                order.getCustomer().addToPastOrders(order);
+                try
+                {
+                    order.getRestaurant().addToActiveOrders(order);
+                }
+                catch (NullPointerException e)
+                {
+                }
+                try
+                {
+
+                    order.getCourier().addToPastDeliveries(order);
+                }
+                catch (NullPointerException e)
+                {
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 }

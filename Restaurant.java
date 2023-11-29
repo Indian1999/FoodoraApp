@@ -74,4 +74,9 @@ class Restaurant extends User
             index++;
         }
     }
+    
+    public void addToActiveOrders(Order order)
+    {
+        activeOrders.add(order);
+    }
 }

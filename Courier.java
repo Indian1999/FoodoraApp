@@ -38,6 +38,11 @@ class Courier extends User
         this.pastDeliveries = pastDeliveries;
     }
 
+    public void addToPastDeliveries(Order order)
+    {
+        pastDeliveries.add(order);
+    }
+
     public void completeDelivery()
     {
         try
