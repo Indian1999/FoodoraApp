@@ -145,7 +145,7 @@ class Order
         else if (status.equals(Status.BEING_DELIVERED))
             return "BEING_DELIVERED";
         else if (status.equals(Status.DELIVERED))
-            return "DELLIVERED";
+            return "DELIVERED";
         else
             throw new Exception("Status is not set!");
     }
@@ -168,6 +168,13 @@ class Order
 
     public void listItems()
     {
+        int i = 1;
+        for (Item item : items)
+        {
+            System.out.println(i + ". " + item.getName() + " " + item.getPrice() + " " +
+                               item.getCategory());
+            i += 1;
+        }
     }
 
     public String toString()
@@ -175,8 +182,16 @@ class Order
         String output = "";
         try
         {
-            output += this.getCustomer().getEmail() + ";" + this.getRestaurant().getUsername() +
-                     ";" + this.getCourier().getUsername() + ";" + this.getStatus();
+            output +=
+                this.getCustomer().getEmail() + ";" + this.getRestaurant().getUsername() + ";";
+            if (this.getCourier() == null)
+            {
+                output += "null" + ";" + this.getStatus();
+            }
+            else
+            {
+                output += this.getCourier().getUsername() + ";" + this.getStatus();
+            }
             for (Item item : this.getItems())
             {
                 output += ";" + item.getName() + ";" + item.getPrice() + ";" + item.getCategory();

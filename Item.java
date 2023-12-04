@@ -40,4 +40,9 @@ class Item
     {
         this.category = category;
     }
+
+    public String toString()
+    {
+        return name + " " + price + " " + category;
+    }
 }

@@ -33,11 +33,15 @@ class Restaurant extends User
 
     public void listCommands()
     {
-        // TO BE IMPLEMENTED
-    }
-
-    public void executeCommand(String command)
-    {
+        System.out.println("0. Exit application");
+        System.out.println("1. Change name");
+        System.out.println("2. Change e-mail");
+        System.out.println("3. Change password");
+        System.out.println("4. List my menu");
+        System.out.println("5. Edit menu");
+        System.out.println("6. List active orders");
+        System.out.println("7. Modify an order");
+        System.out.println("8. Logout");
     }
 
     public void receiveOrder(Order o)
@@ -74,9 +78,24 @@ class Restaurant extends User
             index++;
         }
     }
-    
+
     public void addToActiveOrders(Order order)
     {
         activeOrders.add(order);
+    }
+
+    public void removeItemFromMenu(int index)
+    {
+        menu.remove(index);
+    }
+
+    public void listActiveOrders()
+    {
+        int i = 1;
+        for (Order order : activeOrders)
+        {
+            System.out.println(i + ". " + order.toString());
+            i += 1;
+        }
     }
 }
