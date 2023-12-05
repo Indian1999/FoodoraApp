@@ -10,6 +10,10 @@ class Courier extends User
         super(username, pw, email);
     }
 
+    public void printCourier() {
+        System.out.println(getUsername() + ";" + getPassword() + ";" + getEmail());
+    }
+
     public void setActiveDelivery(Order o)
     {
         activeDelivery = o;

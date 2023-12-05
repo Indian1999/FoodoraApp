@@ -208,7 +208,7 @@ class UserContainer
             index++;
         }
     }
-
+    
     public void exportToFile(String path)
     {
         PrintWriter writer = null;
@@ -258,7 +258,7 @@ class UserContainer
             admins.add(new Admin(name, pw, email));
         }
     }
-
+    
     private void readCouriers(BufferedReader usersFile) throws IOException
     {
         String line = "";
@@ -277,7 +277,7 @@ class UserContainer
             couriers.add(new Courier(name, pw, email));
         }
     }
-
+    
     private void readRestaurants(BufferedReader usersFile) throws IOException
     {
         String line = "";
@@ -306,7 +306,7 @@ class UserContainer
             restaurants.add(res);
         }
     }
-
+    
     private void readCustomers(BufferedReader usersFile) throws IOException
     {
         String line = "";
@@ -354,35 +354,20 @@ class UserContainer
                                            orderElements[j + 2]));
                 }
                 order.getCustomer().addToPastOrders(order);
-                if (order.getStatus().equals("PLACED"))
+                try
                 {
-                    try
-                    {
-                        order.getRestaurant().addToActiveOrders(order);
-                    }
-                    catch (NullPointerException e)
-                    {
-                    }
+                    order.getRestaurant().addToActiveOrders(order);
                 }
-                if (order.getStatus().equals("DELIVERED"))
+                catch (NullPointerException e)
                 {
-                    try
-                    {
-                        order.getCourier().addToPastDeliveries(order);
-                    }
-                    catch (NullPointerException e)
-                    {
-                    }
                 }
-                if (order.getStatus().equals("BEING_DELIVERED"))
+                try
                 {
-                    try
-                    {
-                        order.getCourier().setActiveDelivery(order);
-                    }
-                    catch (NullPointerException e)
-                    {
-                    }
+
+                    order.getCourier().addToPastDeliveries(order);
+                }
+                catch (NullPointerException e)
+                {
                 }
             }
         }
@@ -391,7 +376,7 @@ class UserContainer
             e.printStackTrace();
         }
     }
-
+    
     private void exportAdmins(PrintWriter writer)
     {
         writer.println("admins");
@@ -459,16 +444,8 @@ class UserContainer
                     try
                     {
                         writer.write(order.getCustomer().getEmail() + ";" +
-                                     order.getRestaurant().getUsername() + ";");
-                        if (order.getCourier() != null)
-                        {
-                            writer.write(order.getCourier().getUsername());
-                        }
-                        else
-                        {
-                            writer.write("null");
-                        }
-                        writer.write(";" + order.getStatus());
+                                     order.getRestaurant().getUsername() + ";" +
+                                     order.getCourier() + ";" + order.getStatus());
                         for (Item item : order.getItems())
                         {
                             writer.write(";" + item.getName() + ";" + item.getPrice() + ";" +

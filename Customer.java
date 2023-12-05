@@ -13,6 +13,10 @@ class Customer extends User
         address = null;
     }
 
+    public void printCustomer() {
+        System.out.println(getUsername() + ";" + getPassword() + ";" + getEmail());
+    }
+
     public String getAddress()
     {
         return address;
