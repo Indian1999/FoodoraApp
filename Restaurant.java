@@ -11,6 +11,10 @@ class Restaurant extends User
         super(username, pw, email);
     }
 
+    public void printRestaurant() {
+        System.out.println(getUsername() + ";" + getPassword() + ";" + getEmail());
+    }
+
     public List<Order> getActiveOrders()
     {
         return activeOrders;

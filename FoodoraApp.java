@@ -1,4 +1,6 @@
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 class FoodoraApp
 {
@@ -31,6 +33,8 @@ class FoodoraApp
                 else if (app.user instanceof Restaurant)
                 {
                     app.executeCommand((Restaurant)app.user, input);
+                } else if(app.user instanceof Admin) {
+                    app.executeCommand((Admin)app.user, input);
                 }
                 else
                 {
@@ -141,6 +145,8 @@ class FoodoraApp
                         {
                             e.printStackTrace();
                         }
+                        break;
+                    case "4":
                         break;
                     default:
                         System.out.println("Unknown command!");
@@ -330,7 +336,6 @@ class FoodoraApp
                 break;
         }
     }
-
     public void executeCommand(Visitor v, String command)
     {
         switch (command)
@@ -381,7 +386,149 @@ class FoodoraApp
                 break;
         }
     }
+    public void executeCommand(Admin a, String command){
+        String userName = "", pw = "", email="";
+        String input;
+        switch (command) {
+            case "0":
+                exitApplication();
+                break;
+            case "1": // CREATE USERS
+                System.out.println("1. Create a new Restaurant account");
+                System.out.println("2. Create a new Courier account");
+                System.out.println("3. Create a new Admin account");
+                System.out.println("4. Cancel");
+                input = System.console().readLine();
+                switch (input) {
+                    case "1": // CREATE RESTAURANT
+                        System.out.println("Enter Restaurant username:");
+                        userName = System.console().readLine();
+                        System.out.println("Enter Restaurant password:");
+                        pw = System.console().readLine();
+                        System.out.println("Enter Restaurant email:");
+                        email = System.console().readLine();
+                        a.createRestaurant(userName, pw, email, users);
+                        System.out.println("New Restaurant account succesfully added");
+                        break;
+                    case "2": // CREATE COURIER
+                        System.out.println("Enter Courier username:");
+                        userName = System.console().readLine();
+                        System.out.println("Enter Courier password:");
+                        pw = System.console().readLine();
+                        System.out.println("Enter Courier email:");
+                        email = System.console().readLine();
+                        a.createCourier(userName, pw, email, users);
+                        System.out.println("New Courier account succesfully added");
+                        break;
+                    case "3": // CREATE ADMIN
+                        System.out.println("Enter Admin username:");
+                        userName = System.console().readLine();
+                        System.out.println("Enter Admin password:");
+                        pw = System.console().readLine();
+                        System.out.println("Enter Admin email:");
+                        email = System.console().readLine();
+                        a.createAdmin(userName, pw, email, users);
+                        System.out.println("New Admin account succesfully added");
+                        break;
+                    case "4": // CANCEL
+                        break;
+                    default:
+                        System.out.println("Unknown command!");
+                        break;
+                }
+                break;
+            case "2": // DELETE USERS
+                System.out.println("1. Delete existing Restaurant account");
+                System.out.println("2. Delete existing Courier account");
+                System.out.println("3. Delete existing Admin account");
+                System.out.println("4. Delete existing Customer account");
+                System.out.println("5. Cancel");
+                input = System.console().readLine();
+                int accountIndex=0;
+                switch (input) {
+                    case "1": // DELETE RESTAURANT
+                        System.out.println("Choose the desired account to delete");
+                        for(int i=0;i<users.getRestaurants().size();i++) {
+                            System.out.print((i+1)+". ");
+                            users.getRestaurantByIndex(i).printRestaurant();
+                        }
+                        try {
+                            accountIndex = Integer.parseInt(System.console().readLine());
+                        }catch (NumberFormatException e)
+                        {
+                            System.out.println("You have to input an integer!");
+                            break;
+                        }
 
+                        users.getRestaurants().remove(accountIndex);
+                        System.out.print("Account has been succesfully deleted: ");
+                        users.getRestaurantByIndex(accountIndex).printRestaurant();
+                        break;
+                    case "2": // DELETE COURIER
+                        System.out.println("Choose the desired account to delete");
+                        for(int i=0;i<users.getCouriers().size();i++) {
+                            System.out.print((i+1)+". ");
+                            users.getCourierByIndex(i).printCourier();
+                        }
+                        try {
+                            accountIndex = Integer.parseInt(System.console().readLine());
+                        }catch (NumberFormatException e)
+                        {
+                            System.out.println("You have to input an integer!");
+                            break;
+                        }
+                        users.getCouriers().remove(accountIndex);
+                        System.out.print("Account has been succesfully deleted: ");
+                        users.getCourierByIndex(accountIndex).printCourier();
+                        break;
+                    case "3": // DELETE ADMIN
+                        System.out.println("Choose the desired account to delete");
+                        for(int i=0;i<users.getAdmins().size();i++) {
+                            System.out.print((i+1)+". ");
+                            users.getAdminByIndex(i).printAdmin();
+                        }
+                        try {
+                            accountIndex = Integer.parseInt(System.console().readLine());
+                        }catch (NumberFormatException e)
+                        {
+                            System.out.println("You have to input an integer!");
+                            break;
+                        }
+                        users.getAdmins().remove(accountIndex);
+                        System.out.print("Account has been succesfully deleted: ");
+                        users.getAdminByIndex(accountIndex).printAdmin();
+                        break;
+                    case "4": // DELETE CUSTOMER
+                        System.out.println("Choose the desired account to delete");
+                        for(int i=0;i<users.getCustomers().size();i++) {
+                            System.out.print((i+1)+". ");
+                            users.getCustomerByIndex(i).printCustomer();
+                        }
+                        try {
+                            accountIndex = Integer.parseInt(System.console().readLine());
+                        }catch (NumberFormatException e)
+                        {
+                            System.out.println("You have to input an integer!");
+                        }
+                        users.getCustomers().remove(accountIndex);
+                        System.out.print("Account has been succesfully deleted: ");
+                        users.getCustomerByIndex(accountIndex).printCustomer();
+                        break;
+                    case "5":
+                        break;
+                    default:
+                        System.out.println("Unknown command!");
+                        break;
+                }
+                break;
+            case "3": // LOGOUT
+                loggedIn = false;
+                break;
+            default:
+                System.out.println("Unknown command!");
+                break;
+        }
+    }
     public void exitApplication()
     {
         users.exportToFile("users.txt");
