@@ -39,6 +39,45 @@ class FoodoraApp
             }
         }
     }
+    /*
+    System.out.println("0. Exit application");
+    System.out.println("1. Change name");
+    System.out.println("2. Change e-mail");
+    System.out.println("3. Change password");
+    System.out.println("4. List past deliveries");
+    System.out.println("5. List orders ready for pickup");
+    System.out.println("6. Accept a delivery");
+    System.out.println("7. Set current delivery as completed");
+    System.out.println("8. Logout");*/
+    public void executeCommand(Courier c, String command)
+    {
+        switch(command)
+        {
+            case "0":
+                exitApplication();
+                break;
+            case "1": // new name
+                System.out.println("Enter your new name:");
+                users.getCouriers().remove(c);
+                c.setUsername(System.console().readLine());
+                users.getCouriers().add(c);
+                break;
+            case "2": // new email
+                System.out.println("Enter your new email:");
+                users.getCouriers().remove(c);
+                c.setEmail(System.console().readLine());
+                users.getCouriers().add(c);
+                break;
+            case "3": // new pw
+                System.out.println("Enter your new password:");
+                users.getCouriers().remove(c);
+                c.setPassword(System.console().readLine());
+                users.getCouriers().add(c);
+                break;
+            default:
+                break;
+        }
+    }
     public void executeCommand(Restaurant r, String command)
     {
         switch (command)
@@ -153,15 +192,18 @@ class FoodoraApp
             case "7": // Set order ready for pickup
                 System.out.println("Which order would you like to set as ready for delivery?");
                 r.listActiveOrders();
-                try {
+                try
+                {
                     int index = Integer.parseInt(System.console().readLine());
-                    r.getActiveOrders().get(index-1).setStatus("READY");
+                    r.getActiveOrders().get(index - 1).setStatus("READY");
                 }
                 catch (NumberFormatException ex)
                 {
                     System.out.println("Input has to be an integer!");
-                } 
-                catch (Exception e) {e.printStackTrace();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
                 }
             case "8":
                 loggedIn = false;

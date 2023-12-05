@@ -59,16 +59,20 @@ class Courier extends User
 
     public void listCommands()
     {
-        // TO BE IMPLEMENTED
+        System.out.println("0. Exit application");
+        System.out.println("1. Change name");
+        System.out.println("2. Change e-mail");
+        System.out.println("3. Change password");
+        System.out.println("4. List past deliveries");
+        System.out.println("5. List orders ready for pickup");
+        System.out.println("6. Accept a delivery");
+        System.out.println("7. Set current delivery as completed");
+        System.out.println("8. Logout");
     }
 
     public void listReadyOrders()
     {
         // TO BE IMPLEMENTED
+        // List all orders from all restaurants that are ready to be picked up
     }
-
-    public void executeCommand(String command)
-    {
-    }
-
 }
