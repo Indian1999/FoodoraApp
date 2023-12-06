@@ -1,8 +1,9 @@
+import java.util.ArrayList;
 import java.util.List;
 
 class Courier extends User
 {
-    private List<Order> pastDeliveries;
+    private List<Order> pastDeliveries = new ArrayList<>();
     private Order activeDelivery;
 
     Courier(String username, String pw, String email)
@@ -10,7 +11,8 @@ class Courier extends User
         super(username, pw, email);
     }
 
-    public void printCourier() {
+    public void printCourier()
+    {
         System.out.println(getUsername() + ";" + getPassword() + ";" + getEmail());
     }
 
@@ -20,6 +22,7 @@ class Courier extends User
         try
         {
             activeDelivery.setStatus("BEING_DELIVERED");
+            o.getRestaurant().removeFromActiveOrders(o);
         }
         catch (Exception e)
         {
@@ -36,8 +39,8 @@ class Courier extends User
     {
         return pastDeliveries;
     }
-    
-    public void setPastDeliveries(List<Order> pastDeliveries) 
+
+    public void setPastDeliveries(List<Order> pastDeliveries)
     {
         this.pastDeliveries = pastDeliveries;
     }
@@ -63,6 +66,8 @@ class Courier extends User
 
     public void listCommands()
     {
+        System.out.println("\n----------------------------");
+        System.out.println("Choose an action!");
         System.out.println("0. Exit application");
         System.out.println("1. Change name");
         System.out.println("2. Change e-mail");
@@ -72,11 +77,6 @@ class Courier extends User
         System.out.println("6. Accept a delivery");
         System.out.println("7. Set current delivery as completed");
         System.out.println("8. Logout");
-    }
-
-    public void listReadyOrders()
-    {
-        // TO BE IMPLEMENTED
-        // List all orders from all restaurants that are ready to be picked up
+        System.out.println("----------------------------");
     }
 }

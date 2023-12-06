@@ -26,10 +26,14 @@ class Admin extends User
 
     public void listCommands()
     {
+        System.out.println("\n----------------------------");
+        System.out.println("Choose an action!");
         System.out.println("0. Exit application");
         System.out.println("1. Add new User account");
         System.out.println("2. Delete existing User account");
         System.out.println("3. Logout");
+        System.out.println("----------------------------");
+
     }
 
 

@@ -63,6 +63,8 @@ class Customer extends User
 
     public void listCommands()
     {
+        System.out.println("\n----------------------------");
+        System.out.println("Choose an action!");
         System.out.println("0. Exit application");
         System.out.println("1. Change address");
         System.out.println("2. Change name");
@@ -73,6 +75,7 @@ class Customer extends User
         System.out.println("7. Choose restaurant");
         System.out.println("8. List past orders");
         System.out.println("9. Logout");
+        System.out.println("----------------------------");
     }
 
     public void listPastOrders()

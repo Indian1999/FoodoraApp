@@ -28,10 +28,13 @@ class Visitor extends User
 
     public void listCommands()
     {
+        System.out.println("\n----------------------------");
+        System.out.println("Choose an action!");
         System.out.println("0. Exit application");
         System.out.println("1. Register");
         System.out.println("2. Login");
         System.out.println("3. List restaurants");
         System.out.println("4. List restaurant menu");
+        System.out.println("----------------------------");
     }
 }

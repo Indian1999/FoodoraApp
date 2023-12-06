@@ -1,0 +1,11 @@
+indian@gmail.com;pizzaplace;Istvan;BEING_DELIVERED;szalamis45;3200.12;45cm normal;szalamis45;3200.12;45cm normal;szalamis32;1870.0;32cm normal
+indian@gmail.com;pizzaplace;null;READY;sonkas32;1990.0;32cm normal;sonkas32;1990.0;32cm normal
+indian@gmail.com;KFC Veszprem;null;READY;drumstick bucket;2999.0;bucket
+indian@gmail.com;KFC Veszprem;Karoly;DELIVERED;cheeseburger;800.0;other;strips bucket;2300.0;bucket;strips bucket;2300.0;bucket
+arany.aron@gmail.com;sushiplace;Janos;DELIVERED;squid nigiri;1300.0;nigiri;squid nigiri;1300.0;nigiri
+arany.aron@gmail.com;sushiplace;null;READY;egg nigiri;750.0;nigiri;squid nigiri;1300.0;nigiri;salmon maki;400.0;maki;cucumber maki;240.0;maki
+meggy@kokusz.golyo;pizzaplace;Istvan;DELIVERED;sonkas32;1990.0;32cm normal;szalamis32;1870.0;32cm normal
+meggy@kokusz.golyo;pizzaplace;null;READY;szalamis45;3200.12;45cm normal
+meggy@kokusz.golyo;meki;Karoly;BEING_DELIVERED;cheeseburger;600.0;value;chickenburger;600.0;value;small fries;300.0;fires
+meggy@kokusz.golyo;pizzaplace;null;PLACED;hawai32;2349.0;32cm normal
+register@test.com;meki;null;PLACED;chickenburger;600.0;value

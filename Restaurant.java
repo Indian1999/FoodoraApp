@@ -37,6 +37,8 @@ class Restaurant extends User
 
     public void listCommands()
     {
+        System.out.println("\n----------------------------");
+        System.out.println("Choose an action!");
         System.out.println("0. Exit application");
         System.out.println("1. Change name");
         System.out.println("2. Change e-mail");
@@ -46,6 +48,7 @@ class Restaurant extends User
         System.out.println("6. List active orders");
         System.out.println("7. Modify an order");
         System.out.println("8. Logout");
+        System.out.println("----------------------------");
     }
 
     public void receiveOrder(Order o)
@@ -101,5 +104,10 @@ class Restaurant extends User
             System.out.println(i + ". " + order.toString());
             i += 1;
         }
+    }
+
+    public void removeFromActiveOrders(Order o) 
+    {
+        activeOrders.remove(o);
     }
 }

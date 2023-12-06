@@ -203,4 +203,14 @@ class Order
         }
         return output;
     }
+
+    public double totalPrice()
+    {
+        double sum = 0;
+        for (Item item : items)
+        {
+            sum += item.getPrice();
+        }
+        return sum;
+    }
 }

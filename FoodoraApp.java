@@ -1,4 +1,3 @@
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,29 +32,22 @@ class FoodoraApp
                 else if (app.user instanceof Restaurant)
                 {
                     app.executeCommand((Restaurant)app.user, input);
-                } else if(app.user instanceof Admin) {
+                }
+                else if (app.user instanceof Admin)
+                {
                     app.executeCommand((Admin)app.user, input);
                 }
-                else
+                else if (app.user instanceof Courier)
                 {
-                    System.exit(0);
+                    app.executeCommand((Courier)app.user, input);
                 }
             }
         }
     }
-    /*
-    System.out.println("0. Exit application");
-    System.out.println("1. Change name");
-    System.out.println("2. Change e-mail");
-    System.out.println("3. Change password");
-    System.out.println("4. List past deliveries");
-    System.out.println("5. List orders ready for pickup");
-    System.out.println("6. Accept a delivery");
-    System.out.println("7. Set current delivery as completed");
-    System.out.println("8. Logout");*/
+
     public void executeCommand(Courier c, String command)
     {
-        switch(command)
+        switch (command)
         {
             case "0":
                 exitApplication();
@@ -78,10 +70,88 @@ class FoodoraApp
                 c.setPassword(System.console().readLine());
                 users.getCouriers().add(c);
                 break;
+            case "4": // List past deliveries
+                int index = 1;
+                if (c.getPastDeliveries() != null)
+                {
+                    for (Order order : c.getPastDeliveries())
+                    {
+                        System.out.println(index + ". " + order.toString());
+                        index += 1;
+                    }
+                }
+                break;
+            case "5": // List Ready orders
+                listReadyOrders();
+                break;
+            case "6": // Accept a delivery
+                if (c.getActiveDelivery() == null)
+                {
+                    List<Order> readyOrders = listReadyOrders();
+                    System.out.println("Choose an order to deliver! (index)");
+                    try
+                    {
+                        index = Integer.parseInt(System.console().readLine());
+                        c.setActiveDelivery(readyOrders.get(index - 1));
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        System.out.println("You have to give an integer!");
+                    }
+                    catch (IndexOutOfBoundsException e)
+                    {
+                        System.out.println("Invalid order index!");
+                    }
+                }
+                else
+                {
+                    System.out.println("You already have an active delivery!");
+                }
+                break;
+            case "7":
+                if (c.getActiveDelivery() != null)
+                {
+                    c.completeDelivery();
+                }
+                else
+                {
+                    System.out.println("You do not have an active delivery!");
+                }
+                break;
+            case "8":
+                loggedIn = false;
+                break;
             default:
                 break;
         }
     }
+
+    private List<Order> listReadyOrders()
+    {
+        int index = 1;
+        List<Order> readyOrders = new ArrayList<>();
+        for (Restaurant restaurant : users.getRestaurants())
+        {
+            for (Order order : restaurant.getActiveOrders())
+            {
+                try
+                {
+                    if (order.getStatus().equals("READY"))
+                    {
+                        System.out.println(index + ". " + order.toString());
+                        readyOrders.add(order);
+                        index += 1;
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return readyOrders;
+    }
+
     public void executeCommand(Restaurant r, String command)
     {
         switch (command)
@@ -159,6 +229,7 @@ class FoodoraApp
                         {
                             e.printStackTrace();
                         }
+                        break;
                     case "3":
                         r.listRestaurantMenu();
                         try
@@ -211,6 +282,7 @@ class FoodoraApp
                 {
                     e.printStackTrace();
                 }
+                break;
             case "8":
                 loggedIn = false;
                 break;
@@ -219,6 +291,7 @@ class FoodoraApp
                 break;
         }
     }
+
     public void executeCommand(Customer c, String command)
     {
         switch (command)
@@ -256,6 +329,7 @@ class FoodoraApp
             case "6":
                 try
                 {
+                    users.listRestaurants();
                     System.out.println(
                         "Which restaurants's menu would you like to list? (Give the number of the restaurant)");
                     int index = Integer.parseInt(System.console().readLine());
@@ -273,6 +347,7 @@ class FoodoraApp
             case "7":
                 try
                 {
+                    users.listRestaurants();
                     System.out.println(
                         "Which restaurant menu would you like to order from? (Give the number of the restaurant)");
                     int index = Integer.parseInt(System.console().readLine());
@@ -288,7 +363,8 @@ class FoodoraApp
                         System.out.println("0. Cancel");
                         System.out.println("1. Add item to basket");
                         System.out.println("2. Remove item from basket");
-                        System.out.println("3. Send order");
+                        System.out.println("3. Show basket");
+                        System.out.println("4. Send order");
                         String input = System.console().readLine();
                         switch (input)
                         {
@@ -296,6 +372,7 @@ class FoodoraApp
                                 ordering = false;
                                 break;
                             case "1": // Add item
+                                restaurant.listRestaurantMenu();
                                 System.out.println(
                                     "Which item would you like to add to your basket? (Number of the item)");
                                 try
@@ -319,7 +396,7 @@ class FoodoraApp
                                 {
                                     System.out.println("Input has to be an integer!");
                                 }
-                                catch (ArrayIndexOutOfBoundsException ex)
+                                catch (IndexOutOfBoundsException ex)
                                 {
                                     System.out.println("There are no items with this number!");
                                 }
@@ -342,7 +419,11 @@ class FoodoraApp
                                     System.out.println("There are no items with this number!");
                                 }
                                 break;
-                            case "3": // Send order
+                            case "3": // Show basket
+                                order.listItems();
+                                System.out.println("Total price: " + order.totalPrice());
+                                break;
+                            case "4": // Send order
                                 try
                                 {
                                     ((Customer)user).sendOrder(order);
@@ -378,6 +459,7 @@ class FoodoraApp
                 break;
         }
     }
+
     public void executeCommand(Visitor v, String command)
     {
         switch (command)
@@ -386,7 +468,10 @@ class FoodoraApp
                 exitApplication();
                 break;
             case "1":
-                users.add(v.register());
+                Customer newCustomer = v.register();
+                users.add(newCustomer);
+                user = newCustomer;
+                loggedIn = true;
                 break;
             case "2":
                 String[] loginInfo = v.login().split(";");
@@ -409,6 +494,7 @@ class FoodoraApp
             case "4":
                 try
                 {
+                    users.listRestaurants();
                     System.out.println(
                         "Which restaurant would you like to order from? (Give the number of the restaurant)");
                     int index = Integer.parseInt(System.console().readLine());
@@ -428,10 +514,13 @@ class FoodoraApp
                 break;
         }
     }
-    public void executeCommand(Admin a, String command){
-        String userName = "", pw = "", email="";
+
+    public void executeCommand(Admin a, String command)
+    {
+        String userName = "", pw = "", email = "";
         String input;
-        switch (command) {
+        switch (command)
+        {
             case "0":
                 exitApplication();
                 break;
@@ -441,7 +530,8 @@ class FoodoraApp
                 System.out.println("3. Create a new Admin account");
                 System.out.println("4. Cancel");
                 input = System.console().readLine();
-                switch (input) {
+                switch (input)
+                {
                     case "1": // CREATE RESTAURANT
                         System.out.println("Enter Restaurant username:");
                         userName = System.console().readLine();
@@ -486,17 +576,21 @@ class FoodoraApp
                 System.out.println("4. Delete existing Customer account");
                 System.out.println("5. Cancel");
                 input = System.console().readLine();
-                int accountIndex=0;
-                switch (input) {
+                int accountIndex = 0;
+                switch (input)
+                {
                     case "1": // DELETE RESTAURANT
                         System.out.println("Choose the desired account to delete");
-                        for(int i=0;i<users.getRestaurants().size();i++) {
-                            System.out.print((i+1)+". ");
+                        for (int i = 0; i < users.getRestaurants().size(); i++)
+                        {
+                            System.out.print((i + 1) + ". ");
                             users.getRestaurantByIndex(i).printRestaurant();
                         }
-                        try {
+                        try
+                        {
                             accountIndex = Integer.parseInt(System.console().readLine());
-                        }catch (NumberFormatException e)
+                        }
+                        catch (NumberFormatException e)
                         {
                             System.out.println("You have to input an integer!");
                             break;
@@ -508,13 +602,16 @@ class FoodoraApp
                         break;
                     case "2": // DELETE COURIER
                         System.out.println("Choose the desired account to delete");
-                        for(int i=0;i<users.getCouriers().size();i++) {
-                            System.out.print((i+1)+". ");
+                        for (int i = 0; i < users.getCouriers().size(); i++)
+                        {
+                            System.out.print((i + 1) + ". ");
                             users.getCourierByIndex(i).printCourier();
                         }
-                        try {
+                        try
+                        {
                             accountIndex = Integer.parseInt(System.console().readLine());
-                        }catch (NumberFormatException e)
+                        }
+                        catch (NumberFormatException e)
                         {
                             System.out.println("You have to input an integer!");
                             break;
@@ -525,13 +622,16 @@ class FoodoraApp
                         break;
                     case "3": // DELETE ADMIN
                         System.out.println("Choose the desired account to delete");
-                        for(int i=0;i<users.getAdmins().size();i++) {
-                            System.out.print((i+1)+". ");
+                        for (int i = 0; i < users.getAdmins().size(); i++)
+                        {
+                            System.out.print((i + 1) + ". ");
                             users.getAdminByIndex(i).printAdmin();
                         }
-                        try {
+                        try
+                        {
                             accountIndex = Integer.parseInt(System.console().readLine());
-                        }catch (NumberFormatException e)
+                        }
+                        catch (NumberFormatException e)
                         {
                             System.out.println("You have to input an integer!");
                             break;
@@ -542,13 +642,16 @@ class FoodoraApp
                         break;
                     case "4": // DELETE CUSTOMER
                         System.out.println("Choose the desired account to delete");
-                        for(int i=0;i<users.getCustomers().size();i++) {
-                            System.out.print((i+1)+". ");
+                        for (int i = 0; i < users.getCustomers().size(); i++)
+                        {
+                            System.out.print((i + 1) + ". ");
                             users.getCustomerByIndex(i).printCustomer();
                         }
-                        try {
+                        try
+                        {
                             accountIndex = Integer.parseInt(System.console().readLine());
-                        }catch (NumberFormatException e)
+                        }
+                        catch (NumberFormatException e)
                         {
                             System.out.println("You have to input an integer!");
                         }
@@ -571,6 +674,7 @@ class FoodoraApp
                 break;
         }
     }
+
     public void exitApplication()
     {
         users.exportToFile("users.txt");
