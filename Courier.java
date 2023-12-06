@@ -55,13 +55,13 @@ class Courier extends User
         try
         {
             activeDelivery.setStatus("DELIVERED");
+            pastDeliveries.add(activeDelivery);
+            activeDelivery = null;
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-        pastDeliveries.add(activeDelivery);
-        activeDelivery = null;
     }
 
     public void listCommands()

@@ -367,8 +367,14 @@ class UserContainer
                 }
                 try
                 {
-
-                    order.getCourier().addToPastDeliveries(order);
+                    if (order.getStatus().equals("BEING_DELIVERED"))
+                    {
+                        order.getCourier().setActiveDelivery(order);
+                    }
+                    else
+                    {
+                        order.getCourier().addToPastDeliveries(order);
+                    }
                 }
                 catch (NullPointerException e)
                 {

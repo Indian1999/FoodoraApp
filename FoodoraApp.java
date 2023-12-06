@@ -72,13 +72,10 @@ class FoodoraApp
                 break;
             case "4": // List past deliveries
                 int index = 1;
-                if (c.getPastDeliveries() != null)
+                for (Order order : c.getPastDeliveries())
                 {
-                    for (Order order : c.getPastDeliveries())
-                    {
-                        System.out.println(index + ". " + order.toString());
-                        index += 1;
-                    }
+                    System.out.println(index + ". " + order.toString());
+                    index += 1;
                 }
                 break;
             case "5": // List Ready orders
