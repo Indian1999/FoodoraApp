@@ -593,9 +593,8 @@ class FoodoraApp
                             break;
                         }
 
-                        users.getRestaurants().remove(accountIndex);
-                        System.out.print("Account has been succesfully deleted: ");
-                        users.getRestaurantByIndex(accountIndex).printRestaurant();
+                        users.getRestaurants().remove(accountIndex-1);
+                        System.out.print("Account has been succesfully deleted!");
                         break;
                     case "2": // DELETE COURIER
                         System.out.println("Choose the desired account to delete");
@@ -613,9 +612,8 @@ class FoodoraApp
                             System.out.println("You have to input an integer!");
                             break;
                         }
-                        users.getCouriers().remove(accountIndex);
-                        System.out.print("Account has been succesfully deleted: ");
-                        users.getCourierByIndex(accountIndex).printCourier();
+                        users.getCouriers().remove(accountIndex - 1);
+                        System.out.print("Account has been succesfully deleted!");
                         break;
                     case "3": // DELETE ADMIN
                         System.out.println("Choose the desired account to delete");
@@ -633,9 +631,8 @@ class FoodoraApp
                             System.out.println("You have to input an integer!");
                             break;
                         }
-                        users.getAdmins().remove(accountIndex);
-                        System.out.print("Account has been succesfully deleted: ");
-                        users.getAdminByIndex(accountIndex).printAdmin();
+                        users.getAdmins().remove(accountIndex - 1);
+                        System.out.print("Account has been succesfully deleted!");
                         break;
                     case "4": // DELETE CUSTOMER
                         System.out.println("Choose the desired account to delete");
@@ -652,9 +649,8 @@ class FoodoraApp
                         {
                             System.out.println("You have to input an integer!");
                         }
-                        users.getCustomers().remove(accountIndex);
-                        System.out.print("Account has been succesfully deleted: ");
-                        users.getCustomerByIndex(accountIndex).printCustomer();
+                        users.getCustomers().remove(accountIndex - 1);
+                        System.out.print("Account has been succesfully deleted!");
                         break;
                     case "5":
                         break;
@@ -700,3 +696,13 @@ class FoodoraApp
         users.getRestaurantByIndex(0).addItemToMenu(new Item("sonkas45", 3500, "45cm normal"));
     }
 }
+
+/*
+ TODO:
+ executeCommand(Admin) tesztelése:
+    eddig észlelt hibák: IndexOutOfBoundsException nincs kezelve
+ cancel option az adminnál törlésnél és létrehozásnál
+ meg még sok más bugfix
+ pár helyen lehetne user friendlybb
+ Dátumokat megadni az Order osztályhoz, ez legyen kezelve végig
+ */

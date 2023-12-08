@@ -62,7 +62,4 @@ class User
     {
     }
 
-    public void executeCommand(String command)
-    {
-    }
 }

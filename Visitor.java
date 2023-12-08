@@ -1,8 +1,7 @@
-class Visitor extends User
+class Visitor
 {
     Visitor()
     {
-        super("", "", "");
     }
 
     public String login()
